@@ -1,0 +1,40 @@
+.gal{
+  font-family: monospace;
+}
+
+.post-display{
+  font-size: 20px;
+  padding: 50px;
+}
+
+h6{
+  font-size: 18px;
+}
+
+.container{
+  padding: 30px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+li{
+  margin: 0 0 3px 0;
+}
+
+.btn{
+  float: right;
+  margin: 0 5px 0 0;
+}
+.post-block{
+  padding: 20px;
+  border-radius: 10px;
+  background-color: lightgray;
+}
+
+ul{
+  padding: 5px;
+  list-style: none;
+}

@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg">
+  <a class="navbar-brand animated jello" routerLink="">Picasso</a>
+    <ul class="navbar-nav ml-auto">
+      <!-- Generic navbar links, unprotected -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/contact" routerLinkActive="active">
+          Contact
+        </a>
+      </li>
+      <li *ngIf="!userIsAuthenticated" class="nav-item">
+        <button class="btn btn-primary" routerLink="/signup" routerLinkActive="active">
+          Sign up
+        </button>
+      </li>
+      <li *ngIf="!userIsAuthenticated" class="nav-item">
+        <button class="btn btn-primary" routerLink="/login" routerLinkActive="active">
+          Login
+        </button>
+      </li>
+
+      <!-- Protected routes-->
+      <li *ngIf="this.userIsAuthenticated" class="nav-item">
+        <button class="btn btn-primary" routerLink="/add">
+          + Add Post
+        </button>
+      </li>
+      <li *ngIf="this.userIsAuthenticated" class="nav-item">
+        <button class="btn btn-primary" routerLink="/dashboard">
+          Go to Dashboard
+        </button>
+      </li>
+      <li *ngIf="this.userIsAuthenticated" class="nav-item">
+        <button (click)="onLogOut()" type="button" class="btn btn-primary">
+          Logout
+        </button>
+      </li>
+      </ul>
+</nav>

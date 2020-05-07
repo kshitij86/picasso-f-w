@@ -1,0 +1,36 @@
+<div class="container jumbotron">
+  <form (submit)="onSignUp(signForm)" #signForm="ngForm" >
+    <h1 class="display-4">Sign Up</h1>
+    <div class="form-group">
+      <input
+      type="text"
+      placeholder="Name"
+      class="form-control"
+      name="name"
+      ngModel
+      #name="ngModel"
+      required>
+    </div>
+    <div class="form-group">
+      <input
+      type="email"
+      placeholder="Email"
+      class="form-control"
+      name="email"
+      ngModel
+      #email="ngModel"
+      required>
+    </div>
+    <div class="form-group">
+      <input
+      type="password"
+      placeholder="Password"
+      class="form-control"
+      name="password"
+      ngModel
+      #password="ngModel"
+      required>
+    </div>
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+  </form>
+</div>

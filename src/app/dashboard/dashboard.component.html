@@ -1,0 +1,69 @@
+<div class="container">
+  <h4 class="display-5">
+      {{ this.greeting }}
+  </h4>
+  <br/>
+  <div *ngIf="this.currentUser != undefined && !this.verifiedStatus" class="alert alert-danger">
+      Please verify your email first.
+  </div>
+  <h4 *ngIf="this.currentUser && this.adminStatus && this.verifiedStatus">
+      You are an admin 👑, you can approve and delete posts.<br/>
+      These posts won't be visible to others until you approve them.<br/>
+      You can also view all users.
+  </h4>
+  <br />
+  <!-- Show only if user authenticated -->
+  <div *ngIf="this.currentUser != undefined && this.verifiedStatus">
+      <h4>
+          View your posts below
+      </h4>
+      <br />
+      <div  class="container alert alert-danger" role="alert" *ngIf="!this.currentUserPosts">
+          Posts were not fetched from the server.
+      </div>
+      <h6 class="post-display post-block" *ngIf="this.currentUserPosts.length === 0">
+          Nothing needs your attention right now.
+      </h6>
+      <ul class="container post-display">
+          <li *ngFor="let post of this.currentUserPosts">
+              <div class="container post-block animated fadeInLeft">
+                  <h6>
+                      {{post.title}}
+                  </h6>
+                  <a href="{{ post.imgUrl }}">{{post.imgUrl}}</a>
+                  <div class="btn btn-danger" (click)="deletePost(post.title)" onclick="location.reload();">
+                      Delete 🗑️
+                  </div>
+                  <div *ngIf="adminStatus === true && post.isApproved === false" class="btn btn-warning" (click)="approveAdminPost(post.title.toString())">
+                      Approve
+                  </div>
+                  <div *ngIf="adminStatus === true && post.isApproved === true" class="btn btn-success" muted disabled>
+                      Approved 👍
+                  </div>
+              </div>
+          </li>
+      </ul>
+
+      <!-- Users to be shown, only if an admin is logged in -->
+      <div *ngIf="adminStatus === true">
+          <h4>
+              Registered users
+          </h4>
+          <ul class="container post-display">
+              <li *ngFor="let user of this.allUsers">
+                  <div class="container post-block animated fadeInLeft">
+                      <h6>
+                          {{user.name}}
+                      </h6>
+                      <h6>
+                          {{user.email}}
+                      </h6>
+                      <div *ngIf="user.isAdmin"  class="badge badge-warning">
+                          ADMIN
+                      </div>
+                  </div>
+              </li>
+          </ul>
+      </div>
+  </div>
+</div>

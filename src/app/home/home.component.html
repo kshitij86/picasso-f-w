@@ -1,0 +1,19 @@
+<div class="container gal">
+  <h1>
+    Home
+  </h1>
+  <div *ngIf="!this.posts" class="container alert alert-danger" role="alert">
+    Posts were not fetched from the server.
+  </div>
+  <h1 *ngIf="this.posts.length > 0" class="display-6">{{ msg }}</h1>
+  <h6  *ngIf="this.posts.length === 0">No posts here. Add one now.</h6>
+  <ul class="container post-display">
+    <li *ngFor="let post of this.posts">
+      <div class="container post-block animated fadeInLeft">
+        <h6>{{post.title}}</h6>
+      <a href="{{ post.imgUrl }}">{{post.imgUrl}}</a>
+      <h6>By : {{ post.author }}</h6>
+    </div>
+    </li>
+  </ul>
+</div>
