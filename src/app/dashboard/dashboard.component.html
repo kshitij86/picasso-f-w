@@ -29,8 +29,12 @@
               <div class="container post-block animated fadeInLeft">
                   <h6>
                       {{post.title}}
-                  </h6>
-                  <a href="{{ post.imgUrl }}">{{post.imgUrl}}</a>
+                      <br/>
+                      <a href="{{ post.imgUrl }}">{{post.imgUrl}}</a>
+                      <br/>
+                      By: {{ post.authorID }}
+                    </h6>
+
                   <div class="btn btn-danger" (click)="deletePost(post.title)" onclick="location.reload();">
                       Delete 🗑️
                   </div>
@@ -40,6 +44,9 @@
                   <div *ngIf="adminStatus === true && post.isApproved === true" class="btn btn-success" muted disabled>
                       Approved 👍
                   </div>
+                  <div *ngIf="adminStatus === true && post.isApproved === true" class="btn btn-primary" (click)="unapproveAdminPost(post.title.toString())">
+                    Remove from feed
+                </div>
               </div>
           </li>
       </ul>
@@ -58,8 +65,15 @@
                       <h6>
                           {{user.email}}
                       </h6>
-                      <div *ngIf="user.isAdmin"  class="badge badge-warning">
+                      <div *ngIf="user.isAdmin" class="badge badge-warning">
                           ADMIN
+                      </div>
+                      &nbsp;
+                      <div *ngIf="user.name === this.currentUser" class="badge badge-dark">
+                        This is you
+                      </div>
+                      <div *ngIf="user.name !== this.currentUser" class="btn btn-danger">
+                        Kick user from system
                       </div>
                   </div>
               </li>

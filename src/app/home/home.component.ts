@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Post } from '../models/post.model';
 import { PostService } from '../services/posts.service';
+import { PostFilter } from '../models/post-filter.model';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +10,7 @@ import { PostService } from '../services/posts.service';
 export class HomeComponent implements OnInit {
 
   msg: string;
-  posts: Post[];
+  homePosts: PostFilter[];
 
   constructor(private postService: PostService) {
     this.msg = "Posts for the home"
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
 
     this.postService.getPosts()
     .subscribe((resData) => {
-      this.posts = resData
+      this.homePosts = resData
     });
 
   }

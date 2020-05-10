@@ -8,7 +8,11 @@ a,
   font-size: 20px;
 }
 
-button
+.navbar-nav>li{
+  float: none;
+  text-align: center;
+  display: inline-block;
+}
 
 .navbar {
   -moz-user-select: none;

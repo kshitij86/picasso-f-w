@@ -13,6 +13,7 @@ export class AuthenticationService {
   adminStatusListener: boolean;
   verifiedStatusListener: boolean;
   loggedInUser: string;
+  currentUserID: string;
 
 
   constructor(private http: HttpClient, private router: Router){}
@@ -31,13 +32,19 @@ export class AuthenticationService {
 
   getVerifiedStatus(): Observable<{isVerified: boolean}>{
     // As verified status lives in the backend
-    return this.http.get<{isVerified: boolean}>('https://picasso-backend.herokuapp.com/api/auth/signup/verified/' + this.getEmail());
+    return this.http.get<{isVerified: boolean}>('https://picasso-backend.herokuapp.com/api/auth/signup/verified/' + this.getCurrentUserID());
   }
 
-  // Send email to display alongwith post.
-  getEmail(){
+  // Send to display alongwith post.
+  getCurrentUserName(){
     if(this.loggedInUser){
       return this.loggedInUser;
+    }
+  }
+
+  getCurrentUserID(){
+    if(this.currentUserID){
+      return this.currentUserID;
     }
   }
 
@@ -46,10 +53,17 @@ export class AuthenticationService {
     return this.http.get<User[]>('https://picasso-backend.herokuapp.com/api/admin/users');
   }
 
+  kickUser(id: string){
+    this.http.delete('https://picasso-backend.com/api/admin/users/kick/' + id)
+    .subscribe((resData) => {
+      console.log(`User kicked from system`);
+    });
+  }
+
   signupServiceMethod(user: User){
     this.http.post('https://picasso-backend.herokuapp.com/api/auth/signup', user)
     .subscribe((resData) => {
-      console.log(resData);  //Successful user creation and needs to do verification by email
+      console.log(resData);   //Successful user creation and needs to do verification by email
     })
   }
 
@@ -58,8 +72,8 @@ export class AuthenticationService {
       .subscribe((resData) => {
         this.token = resData.token;
         this.adminStatusListener = resData.isAdmin;
-        this.loggedInUser = userLogin.email;
-        // console.log(`Is admin ? ${resData.isAdmin}`)
+        this.loggedInUser = resData.name;
+        this.currentUserID = resData.id;
         if(this.token){
           this.authStatusListener.next(true);
           this.router.navigate(['']);
@@ -72,6 +86,7 @@ export class AuthenticationService {
     this.token = null;
     this.authStatusListener.next(false);
     this.loggedInUser = null;
+    this.currentUserID = null;
     this.router.navigate(['']);
     this.clearAuthData();
   }

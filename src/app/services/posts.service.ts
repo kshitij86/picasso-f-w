@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Post } from '../models/post.model';
+import { PostFilter } from '../models/post-filter.model';
 import { Observable } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
@@ -11,13 +12,13 @@ export class PostService {
     constructor(private http: HttpClient) {}
 
     // Go to this endpoint and fetch home posts data
-    getPosts(): Observable<Post[]>{
-        return this.http.get<Post[]>('https://picasso-backend.herokuapp.com/api/posts');
+    getPosts(): Observable<PostFilter[]>{
+        return this.http.get<PostFilter[]>('https://picasso-backend.herokuapp.com/api/posts/filter');
     }
 
     // Get only posts for a specific user
-    getSpecificPosts(currentUser: string): Observable<Post[]>{
-        return this.http.get<Post[]>('https://picasso-backend.herokuapp.com/api/posts/' + currentUser);
+    getSpecificPosts(currentUserID: string): Observable<Post[]>{
+        return this.http.get<Post[]>('https://picasso-backend.herokuapp.com/api/posts/' + currentUserID);
     }
 
     // Delete a specific post
@@ -31,7 +32,7 @@ export class PostService {
     // Add a post
     sendPost(post: Post){
         // Send data to server
-        this.http.post<any>('https://picasso-backend.herokuapp.com/api/posts', post)
+        this.http.post<any>('https://picasso-backend.herokuapp.com/api/posts/', post)
         .subscribe((resData) => {
             console.log(resData);
         });
@@ -43,10 +44,16 @@ export class PostService {
     }
 
     onApprovePost(title: string){
-        console.log(title);
         this.http.get('https://picasso-backend.herokuapp.com/api/admin/posts/approve/' + title)
         .subscribe((resData) => {
             console.log(resData);
         });
+    }
+
+    onUnapprovePost(title: string){
+      this.http.get('https://picasso-backend.herokuapp.com/api/admin/posts/unapprove/' + title)
+      .subscribe((resData) => {
+        console.log(resData);
+      });
     }
 }

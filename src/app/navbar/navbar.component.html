@@ -37,5 +37,8 @@
           Logout
         </button>
       </li>
-      </ul>
+      <li *ngIf="this.userIsAuthenticated && this.currentUserName" class="nav-item">
+        Hi, {{ this.currentUserName }}
+      </li>
+    </ul>
 </nav>

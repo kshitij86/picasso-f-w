@@ -11,8 +11,8 @@ import { AuthenticationService } from '../services/auth.service';
 export class NavbarComponent implements OnInit {
 
   userIsAuthenticated = false;
-  socialIsAuthenticated: boolean;
   private authListenerSubs: Subscription;
+  currentUserName: string;
 
 
   constructor(private authService: AuthenticationService) {}
@@ -25,6 +25,7 @@ export class NavbarComponent implements OnInit {
     this.authListenerSubs = this.authService.getAuthStatusListener().subscribe((isAuthenticated) => {
       this.userIsAuthenticated = isAuthenticated;
     });
+    this.currentUserName = this.authService.getCurrentUserName();
   }
 
   ngOnDestroy(){

@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Post } from '../models/post.model';
 import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -11,7 +11,9 @@ import { PostService } from '../services/posts.service';
   templateUrl: './add-post.component.html',
   styleUrls: ['./add-post.component.css']
 })
-export class AddPostComponent {
+export class AddPostComponent implements OnInit{
+
+  currentUserID: string;
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -27,7 +29,7 @@ export class AddPostComponent {
     const post: Post = {
       title: form.value.title,
       imgUrl: form.value.imgUrl,
-      author: this.authService.getEmail(),
+      authorID: this.currentUserID,
       isApproved: false
     }
     this.postService.sendPost(post);
@@ -36,4 +38,10 @@ export class AddPostComponent {
     // Go to home and see the newly added post
     this.router.navigate(['']);
   }
+
+  ngOnInit(): void {
+    this.currentUserID = this.authService.getCurrentUserID();
+  }
+
+
 }

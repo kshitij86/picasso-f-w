@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit {
 
   greeting: string;
   currentUser: string;
+  currentUserID: string;
   currentUserPosts: Post[];
   allUsers: User[];
   adminText: string;
@@ -27,7 +28,7 @@ export class DashboardComponent implements OnInit {
 
   getCurrentUserPosts(){
     // Return posts for the user.
-    this.postService.getSpecificPosts(this.currentUser)
+    this.postService.getSpecificPosts(this.currentUserID)
     .subscribe((resData) => {
       this.currentUserPosts = resData;
     });
@@ -50,18 +51,28 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  unapproveAdminPost(postTitle: string){
+    // Post is now removed from the feed
+    this.postService.onUnapprovePost(postTitle);
+    this.router.navigate(['']);
+  }
+
   approveAdminPost(postTitle: string) {
     this.postService.onApprovePost(postTitle);
     this.router.navigate(['']);
   }
 
+  adminKickUser(id: string){
+    this.authService.kickUser(id);
+    this.router.navigate(['']);
+  }
 
   ngOnInit(): void {
-    this.authService.getVerifiedStatus()
-    .subscribe((resData) => {
+    this.authService.getVerifiedStatus().subscribe((resData) => {
       this.verifiedStatus = resData.isVerified;
     });
-    this.currentUser = this.authService.loggedInUser;
+    this.currentUserID = this.authService.getCurrentUserID();
+    this.currentUser = this.authService.getCurrentUserName();
     this.adminStatus = this.authService.adminStatusListener;
     if(this.currentUser === undefined){
       this.greeting = "Please login first before accessing this page.";
